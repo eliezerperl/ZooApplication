@@ -12,7 +12,5 @@ namespace ZooDAL.Services.Intefaces
         public Task<IEnumerable<Animal>> GetTopTwoAnimals();
 
         public Task<IEnumerable<Animal>> GetAnimalsByCategory(string categoryName);
-
-        public Task<IEnumerable<Comment>> GetCommentsForAnimal(Animal animal);
     }
 }

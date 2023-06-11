@@ -27,17 +27,31 @@ namespace ZooDAL.Services
 
         public void Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var dbSet = _dbContext.Set<T>();
+            var deletingEntity = dbSet.FindAsync(id);
+            if (deletingEntity.Result == null)
+                throw new ArgumentException($"Entity with ID {id} does not exist.");
+
+            dbSet.Remove(deletingEntity.Result);
+            _dbContext.SaveChanges();
         }
 
-        public Task<IEnumerable<T>> GetAllAsync()
+        public async Task<IEnumerable<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var dbSet = _dbContext.Set<T>();
+            var listOfEntites = await dbSet.ToListAsync();
+
+            return listOfEntites;
         }
 
-        public Task<T> GetByIdAsync(Guid id)
+        public async Task<T> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var dbSet = _dbContext.Set<T>();
+            var wantedEntity = await dbSet.FindAsync(id);
+            if (wantedEntity == null)
+                throw new ArgumentException($"Entity with ID {id} does not exist.");
+
+            return wantedEntity;
         }
 
         public async Task UpdateAsync(Guid id, T entity)
@@ -46,9 +60,11 @@ namespace ZooDAL.Services
 
             var existingEntity = await dbSet.FindAsync(id);
             if (existingEntity == null)
-            {
                 throw new ArgumentException($"Entity with ID {id} does not exist.");
-            }
+            /*
+             add newEntityId = oldEntityId
+            entity.Id = id;
+             */
             _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
             await _dbContext.SaveChangesAsync();
         }

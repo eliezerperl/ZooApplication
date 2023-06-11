@@ -16,19 +16,20 @@ namespace ZooDAL.Services
         {
         }
 
-        public Task<IEnumerable<Animal>> GetAnimalsByCategory(string categoryName)
+        public async Task<IEnumerable<Animal>> GetAnimalsByCategory(string categoryName)
         {
-            throw new NotImplementedException();
+            var allAnimals = await GetAllAsync();
+            var categorizedAnimals = allAnimals.Where(animal => animal.Category.Name == categoryName);
+            
+            return categorizedAnimals;
         }
 
-        public Task<IEnumerable<Comment>> GetCommentsForAnimal(Animal animal)
+        public async Task<IEnumerable<Animal>> GetTopTwoAnimals()
         {
-            throw new NotImplementedException();
-        }
+            var allAnimals = await GetAllAsync();
+            var topTwoAnimals = allAnimals.OrderByDescending(animal => animal.Comments.Count());
 
-        public Task<IEnumerable<Animal>> GetTopTwoAnimals()
-        {
-            throw new NotImplementedException();
+            return topTwoAnimals;
         }
     }
 }

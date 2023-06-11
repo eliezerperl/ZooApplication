@@ -13,5 +13,12 @@ namespace ZooDAL.Services
         public CommentService(myContext context) : base(context)
         {
         }
+
+        public async Task<IEnumerable<Comment>> GetCommentsForAnimal(Animal animal)
+        {
+            var allComments = await GetAllAsync();
+            var specificAnimalsComments = allComments.Where(comment => comment.AnimalID == animal.Id);
+            return specificAnimalsComments;
+        }
     }
 }

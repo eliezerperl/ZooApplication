@@ -17,8 +17,9 @@ namespace Zoo.Controllers
 
         public IActionResult Index()
         {
-            var test = new Category { Name = "Eli" };
-            categoryService.CreateAsync(test).Wait();
+
+
+
             return View();
         }
 
