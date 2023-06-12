@@ -1,6 +1,44 @@
-﻿@{
+﻿@model Animal
+
+@{
     ViewData["Title"] = "Privacy Policy";
 }
 <h1>@ViewData["Title"]</h1>
 
 <p>Use this page to detail your site's privacy policy.</p>
+
+<form method="post" enctype="multipart/form-data">
+    <input type="hidden" asp-for="Id" />
+    <div>
+        <label asp-for="Name"></label>
+        <input asp-for="Name" />
+        <span asp-validation-for="Name"></span>
+    </div>
+    <div>
+        <label asp-for="Age"></label>
+        <input asp-for="Age" />
+        <span asp-validation-for="Age"></span>
+    </div>
+    <div>
+        <label asp-for="Description"></label>
+        <input asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+    <div>
+        <label asp-for="Category"></label>
+        <select asp-for="Category">
+            <option>Mammal</option>
+            <option>Fish</option>
+            <option>Bird</option>
+        </select>
+        <span asp-validation-for="Category"></span>
+    </div>
+    <div>
+        <label asp-for="ImagePath"></label>
+        <input type="file" asp-for="ImagePath" accept="image/*"/>
+        <span asp-validation-for="ImagePath"></span>
+    </div>
+    <div>
+        <input type="submit"/>
+    </div>
+</form>

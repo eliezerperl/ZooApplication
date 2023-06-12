@@ -10,6 +10,8 @@ namespace ZooDAL.Services.Intefaces
     public interface ICommentService : IZooService<Comment>
     {
 
-        public Task<IEnumerable<Comment>> GetCommentsForAnimal(Animal animal);
+        Task<IEnumerable<Comment>> GetCommentsForAnimal(Animal animal);
+
+        Task DeleteAllCommentsForAnimal(Animal animal);
     }
 }

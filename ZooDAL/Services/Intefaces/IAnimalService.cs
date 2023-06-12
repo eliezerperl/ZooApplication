@@ -9,8 +9,13 @@ namespace ZooDAL.Services.Intefaces
 {
     public interface IAnimalService : IZooService<Animal>
     {
-        public Task<IEnumerable<Animal>> GetTopTwoAnimals();
 
-        public Task<IEnumerable<Animal>> GetAnimalsByCategory(string categoryName);
+        Task<Animal> GetAnimalWithCategory(Guid id);
+
+        Task<IEnumerable<Animal>> GetAllAnimalsWithCategories();
+
+        Task<IEnumerable<Animal>> GetTopTwoAnimals();
+
+        Task<IEnumerable<Animal>> GetAnimalsByCategory(string categoryName);
     }
 }

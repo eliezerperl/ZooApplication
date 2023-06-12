@@ -20,5 +20,15 @@ namespace ZooDAL.Services
             var specificAnimalsComments = allComments.Where(comment => comment.AnimalID == animal.Id);
             return specificAnimalsComments;
         }
+
+        public async Task DeleteAllCommentsForAnimal(Animal animal)
+        {
+            var allComments = await GetAllAsync();
+            var specificAnimalsComments = allComments.Where(comment => comment.AnimalID == animal.Id).ToList();
+
+            for (var i = 0; i < specificAnimalsComments.Count; i++) {
+                await DeleteAsync(specificAnimalsComments[i].Id);
+            }
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace ZooDAL.Services
 {
     public class ZooService<T> : IZooService<T> where T : class
     {
-        readonly myContext _dbContext;
+        protected readonly myContext _dbContext;
 
         public ZooService(myContext context)
         {
@@ -25,15 +25,15 @@ namespace ZooDAL.Services
             await _dbContext.SaveChangesAsync();
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
             var dbSet = _dbContext.Set<T>();
-            var deletingEntity = dbSet.FindAsync(id);
-            if (deletingEntity.Result == null)
+            var deletingEntity = await dbSet.FindAsync(id);
+            if (deletingEntity == null)
                 throw new ArgumentException($"Entity with ID {id} does not exist.");
 
-            dbSet.Remove(deletingEntity.Result);
-            _dbContext.SaveChanges();
+            dbSet.Remove(deletingEntity);
+            await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
@@ -66,6 +66,7 @@ namespace ZooDAL.Services
             entity.Id = id;
              */
             _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
+
             await _dbContext.SaveChangesAsync();
         }
     }

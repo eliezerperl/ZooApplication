@@ -18,8 +18,6 @@ namespace ZooDAL.Services.Intefaces
 
         Task UpdateAsync(Guid id, T entity);
 
-        void Delete(Guid id);
-
-        //Task<IEnumerable<T>> GetByCategoryAsync();
+        Task DeleteAsync(Guid id);
     }
 }
