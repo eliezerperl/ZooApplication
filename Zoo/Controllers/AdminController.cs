@@ -22,7 +22,7 @@ namespace Zoo.Controllers
             _env = environment;
         }
 
-        // GET: AdminController
+        // GET: Admin
         public IActionResult Index()
         {
             var animals = _animalService.GetAllAnimalsWithCategories().Result;
@@ -30,15 +30,7 @@ namespace Zoo.Controllers
             return View(animals);
         }
 
-        //// GET: AdminController/Details/5
-        //public IActionResult Details(Guid id)
-        //{
-        //    var animal = _animalService.GetByIdAsync(id).Result;
-        //    animal.Comments = _commentService.GetCommentsForAnimal(animal).Result;
-        //    return View(animal);
-        //}
-
-        // GET: AdminController/Create
+        // GET: Admin/Create
         public IActionResult Create()
         {
             var categories = _categoryService.GetAllAsync().Result;
@@ -47,7 +39,7 @@ namespace Zoo.Controllers
             return View();
         }
 
-        // POST: AdminController/Create
+        // POST: Admin/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(Animal animal, IFormFile ImageData)
@@ -55,7 +47,7 @@ namespace Zoo.Controllers
             animal.Category = _categoryService.GetByIdAsync(animal.CategoryID).Result;
             animal.Comments = new List<Comment>();
 
-            //saving file to wwwroot folder
+            //creating file path in order to save file to wwwroot folder
             var root = Path.Combine(_env.WebRootPath, "Uploads");
             Directory.CreateDirectory(root);
             
@@ -95,7 +87,7 @@ namespace Zoo.Controllers
             }
         }
 
-        // GET: AdminController/Edit/5
+        // GET: Admin/Edit/{Guid}
         public IActionResult Edit(Guid id)
         {
             var categories = _categoryService.GetAllAsync().Result;
@@ -105,14 +97,14 @@ namespace Zoo.Controllers
             return View(animal);
         }
 
-        // POST: AdminController/Edit/5
+        // POST: Admin/Edit/{Guid}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, Animal animal)
+        public async Task<IActionResult> Edit(Animal animal)
         {
             try
             {
-                await _animalService.UpdateAsync(id, animal);
+                await _animalService.UpdateAsync(animal.Id, animal);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -121,23 +113,29 @@ namespace Zoo.Controllers
             }
         }
 
-        // GET: AdminController/Delete/5
+        // GET: Admin/Delete/{Guid}
         public IActionResult Delete(Guid id)
         {
             var animalToDelete = _animalService.GetAnimalWithCategory(id).Result;
             return View(animalToDelete);
         }
 
-        // POST: AdminController/Delete/5
+        // POST: Admin/Delete/{Guid}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(Guid id, IFormCollection collection)
+        public IActionResult DeleteAction(Guid id)
         {
             try
             {
+                // Deleting the animals image
                 var animalToDelete = _animalService.GetByIdAsync(id).Result;
                 var imagePath = Path.Combine(_env.WebRootPath, "Uploads", animalToDelete.ImagePath);
                 System.IO.File.Delete(imagePath);
+
+                //Deleting the animals comments
+                _commentService.DeleteAllCommentsForAnimal(animalToDelete);
+
+                //Deleting the animal
                 _animalService.DeleteAsync(id);
                 return RedirectToAction(nameof(Index));
             }

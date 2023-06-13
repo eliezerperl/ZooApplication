@@ -12,9 +12,10 @@
             <div class="card mb-4">
                 <img src="~/Uploads/@Model.ImagePath" class="card-img-top" alt="Animal Image">
                 <div class="card-body">
-                    <h5 class="card-title">@Model.Name</h5>
-                    <p class="card-text">Age: @Model.Age</p>
-                    <p class="card-text">@Model.Description</p>
+                    <h5 class="card-text text-center"><b>Name:</b> @Model.Name</h5>
+                    <p class="card-text text-center"><b>Age:</b> @Model.Age</p>
+                    <p class="card-text text-center">@Model.Description</p>
+                    <p class="card-text text-center"><b>Category:</b> @Model.Category.Name</p>
                 </div>
             </div>
         </div>
@@ -22,9 +23,9 @@
         <div class="col-md-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="card-title">Comments</h4>
+                    <h4 class="card-title text-center">Comments</h4>
                     <hr />
-                    <form method="post" asp-action="PostComment" asp-route-id="@Model.Id">
+                    <form class="text-center" method="post" asp-action="PostComment" asp-route-id="@Model.Id">
                         <div class="mb-4">
                             <input class="form-control" name="comment" placeholder="Comment here...">
                         </div>

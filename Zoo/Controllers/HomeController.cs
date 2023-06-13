@@ -46,29 +46,49 @@ namespace Zoo.Controllers
             return RedirectToAction(nameof(Details), new {Id});
         }
 
-        public IActionResult Catalog()
+        public IActionResult Catalog(Guid? categoryId)
         {
-            var animals = _animalService.GetAllAnimalsWithCategories().Result;
+            IEnumerable<Animal> animals;
+            if (categoryId.HasValue && categoryId != Guid.Empty) 
+                animals = _animalService.GetAnimalsByCategory(categoryId.Value).Result;
+            else
+                animals = _animalService.GetAllAnimalsWithCategories().Result;
 
             var categories = _categoryService.GetAllAsync().Result;
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            ViewBag.Categories = new SelectList(categories, "Id", "Name", categoryId);
 
             return View(animals);
         }
 
-        [HttpPost]
-        public IActionResult Catalog(Guid categoryId)
-        {
-            var categories = _categoryService.GetAllAsync().Result;
-            ViewBag.Categories = new SelectList(categories, "Id", "Name");
-            IEnumerable<Animal> animalsOfCategory;
-            if (categoryId != Guid.Empty)
-                animalsOfCategory = _animalService.GetAnimalsByCategory(categoryId).Result;
-            else
-                animalsOfCategory = _animalService.GetAllAnimalsWithCategories().Result;
 
-            return View(animalsOfCategory);
+        [HttpPost]
+        public IActionResult GetByCategory(Guid categoryId)
+        {
+            if (categoryId == Guid.Empty)
+                return RedirectToAction(nameof(Catalog));
+            else
+                return RedirectToAction(nameof(Catalog), new { categoryId });
         }
+
+
+        //[HttpPost]
+        //public IActionResult Catalog(Guid categoryId)
+        //{
+        //    //var categories = _categoryService.GetAllAsync().Result;
+        //    //ViewBag.Categories = new SelectList(categories, "Id", "Name", categoryId);
+
+        //    //IEnumerable<Animal> animalsOfCategory;
+        //    //if (categoryId != Guid.Empty)
+        //    //    animalsOfCategory = _animalService.GetAnimalsByCategory(categoryId).Result;
+        //    //else
+        //    //    animalsOfCategory = _animalService.GetAllAnimalsWithCategories().Result;
+
+        //    //return View(animalsOfCategory);
+        //    if (categoryId == Guid.Empty)
+        //        return RedirectToAction(nameof(Catalog));
+        //    else
+        //        return RedirectToAction(nameof(Catalog), categoryId);
+        //}
 
 
 

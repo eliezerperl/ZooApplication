@@ -27,7 +27,7 @@ namespace ZooDAL.Services
             var specificAnimalsComments = allComments.Where(comment => comment.AnimalID == animal.Id).ToList();
 
             for (var i = 0; i < specificAnimalsComments.Count; i++) {
-                await DeleteAsync(specificAnimalsComments[i].Id);
+                DeleteAsync(specificAnimalsComments[i].Id).Wait();
             }
         }
     }

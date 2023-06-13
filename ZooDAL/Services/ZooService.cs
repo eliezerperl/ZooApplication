@@ -67,7 +67,7 @@ namespace ZooDAL.Services
              */
             _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
 
-            await _dbContext.SaveChangesAsync();
+            _dbContext.SaveChanges();
         }
     }
 }
