@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<ZooDAL.Entities.Animal>
 
 @{
-    ViewData["Title"] = "Catalog";
+    ViewData["Title"] = "Animals";
 }
+<div class="card opacity-75">
+    <h1 class="card-header card-title text-center">@ViewData["Title"]</h1>
 
-<h1 class="text-center">Catalog</h1>
+        <form class="card-body text-center" method="post" asp-action="GetByCategory">
+            <select onchange="this.form.submit()" name="categoryId" asp-items="@ViewBag.Categories" >
+                <option>All Categories</option>
+            </select>
+        </form>
 
-<p>
-    <form method="post" asp-action="GetByCategory">
-    <select onchange="this.form.submit()" name="categoryId" asp-items="@ViewBag.Categories" >
-        <option>All Categories</option>
-    </select>
-       @*  <input type="submit" value="Filter" /> *@
-    </form>
-</p>
+
+</div>
+
 <hr />
-
 
 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3 card-group">
 
@@ -24,10 +24,10 @@
       <div class="col">
         <div class="card" style="width: 18rem;">
             <img src="~/Uploads/@item.ImagePath" class="card-img-top" alt="...">
-          <div class="card-body">
+          <div class="card-body text-center">
             <h5 class="card-text"><b>Name:</b> @item.Name</h5>
             <p class="card-text">@item.Description</p>
-            <a href="@Url.Action("Details", new { id=item.Id })" class="btn btn-primary">Details</a>
+            <p><a href="@Url.Action("Details", new { id=item.Id })" class="btn btn-primary">Details</a></p>
           </div>
         </div>
       </div> 

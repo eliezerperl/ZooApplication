@@ -45,7 +45,7 @@ namespace Zoo.Controllers
         public IActionResult Create(Animal animal, IFormFile ImageData)
         {
             animal.Category = _categoryService.GetByIdAsync(animal.CategoryID).Result;
-            animal.Comments = new List<Comment>();
+            //animal.Comments = new List<Comment>();
 
             //creating file path in order to save file to wwwroot folder
             var root = Path.Combine(_env.WebRootPath, "Uploads");
