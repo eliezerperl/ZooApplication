@@ -39,16 +39,13 @@ namespace ZooDAL.Services
             return animal;
         }
 
-        public async Task<IEnumerable<Animal>> GetAnimalsByCategory(string categoryName)
+        public async Task<IEnumerable<Animal>> GetAnimalsByCategory(Guid categoryId)
         {
-            //var allAnimals = await GetAllAsync();
-            //var categorizedAnimals = allAnimals.Where(animal => animal.Category.Name == categoryName);
-            //return categorizedAnimals;
 
             var animals = await GetAllAsync();
             var categories = await _dbContext.Categories.ToListAsync();
 
-            var categoryMatch = categories.FirstOrDefault(c => c.Name == categoryName);
+            var categoryMatch = categories.FirstOrDefault(c => c.Id == categoryId);
             if (categoryMatch == null)
             {
                 throw new ArgumentException("The specified category does not exist.");
@@ -56,21 +53,32 @@ namespace ZooDAL.Services
 
             var animalsByCategory = animals.Where(x => x.CategoryID == categoryMatch.Id).ToList();
 
-            if (animalsByCategory.Count == 0)
-            {
-                throw new ArgumentException("There are no animals in the specified category.");
-            }
-
             return animalsByCategory;
 
         }
 
-        public async Task<IEnumerable<Animal>> GetTopTwoAnimals()
+        public async Task<IEnumerable<Animal>> GetTopTwoAnimalsWithCategories()
         {
-            var allAnimals = await GetAllAsync();
-            var topTwoAnimals = allAnimals.OrderByDescending(animal => animal.Comments.Count()).Take(2);
+            var allAnimals = await GetAllAnimalsWithCategories();
+            var comments = _dbContext.Comments.ToList();
+
+            foreach (var animal in allAnimals)
+            {
+                animal.Comments = comments.Where(comment => comment.AnimalID == animal.Id);
+            }
+
+            var topTwoAnimals = allAnimals
+                .OrderByDescending(animal => animal.Comments.Count())
+                .Take(2);
+
+            //var categories = _dbContext.Categories.ToList();
+            //foreach (var animal in topTwoAnimals)
+            //{
+            //    animal.Category = categories.First(c => c.Id == animal.CategoryID);
+            //}
 
             return topTwoAnimals;
+
         }
     }
 }

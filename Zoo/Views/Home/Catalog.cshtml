@@ -1,11 +1,22 @@
 ﻿@model IEnumerable<ZooDAL.Entities.Animal>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Catalog";
 }
 
-<h1>Index</h1>
+<h1>Catalog</h1>
+
+<p>
+    <form method="post">
+    <select name="categoryId" asp-items="@ViewBag.Categories" >
+        <option>All Categories</option>
+    </select>
+    <input type="submit" value="Filter" />
+    </form>
+</p>
 <hr />
+
+
 
 @* <table class="table">
     <thead>
@@ -32,14 +43,16 @@
     <tbody> *@
 @foreach (var item in Model) {
 
-    <div class="card" style="width: 18rem;">
-        <img src="~/Uploads/@item.ImagePath" class="card-img-top" alt="...">
-        <div class="card-body">
+        <div class="card" style="width: 18rem;">
+            <img src="~/Uploads/@item.ImagePath" class="card-img-top" alt="...">
+          <div class="card-body">
             <h5 class="card-title">@item.Name</h5>
             <p class="card-text">@item.Description</p>
             <a href="@Url.Action("Details", new { id=item.Id })" class="btn btn-primary">Details</a>
+          </div>
         </div>
-    </div>
+
+
 
         @* <tr>
             <td>
@@ -63,5 +76,6 @@
             </td>
         </tr> *@
 }
-@*     </tbody>
-</table> *@
+   @*  </tbody>
+</table>
+ *@

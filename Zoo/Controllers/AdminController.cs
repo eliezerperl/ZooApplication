@@ -53,7 +53,7 @@ namespace Zoo.Controllers
         public IActionResult Create(Animal animal, IFormFile ImageData)
         {
             animal.Category = _categoryService.GetByIdAsync(animal.CategoryID).Result;
-
+            animal.Comments = new List<Comment>();
 
             //saving file to wwwroot folder
             var root = Path.Combine(_env.WebRootPath, "Uploads");
@@ -61,7 +61,7 @@ namespace Zoo.Controllers
             
             var fileName = Path.Combine(root, Guid.NewGuid().ToString("N") + Path.GetExtension(ImageData.FileName));
 
-            //saving to bytes
+            //saving in bytes
             byte[] bytes;
             using (var memoryStream = new MemoryStream())
             {
@@ -69,7 +69,7 @@ namespace Zoo.Controllers
                 bytes = memoryStream.ToArray();
             }
 
-            //munipulating the users inputted image to resize to my liking
+            //manipulating the users inputted image to resize to my liking
             using (Image img = Image.Load(bytes))
             {
                 img.Mutate(i => i.Resize(new Size { Width = 200 }));
@@ -77,12 +77,7 @@ namespace Zoo.Controllers
                 img.Save(fileName);
             }
 
-            //using (var fileStream = new FileStream(fileName, FileMode.Create))
-            //{
-            //    ImageData.CopyTo(fileStream);
-            //}
-
-            //giving the animal the relative path to his image
+            //giving the animal the fileName of his image
             animal.ImagePath = Path.GetFileName(fileName);
 
             ModelState.Clear();

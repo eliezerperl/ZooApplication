@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Diagnostics;
 using Zoo.Models;
 using ZooDAL.Entities;
@@ -21,30 +22,57 @@ namespace Zoo.Controllers
 
         public IActionResult Index()
         {
-            var animals = _animalService.GetAllAnimalsWithCategories().Result;
+            var animals = _animalService.GetTopTwoAnimalsWithCategories().Result;
 
             return View(animals);
         }
 
-        public IActionResult Details(Guid id)
+        public IActionResult Details(Guid Id)
         {
-            var animal = _animalService.GetAnimalWithCategory(id).Result;
+            var animal = _animalService.GetAnimalWithCategory(Id).Result;
             animal.Comments = _commentService.GetCommentsForAnimal(animal).Result;
             return View(animal);
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult PostComment(string comment, Guid Id)
         {
-            return View();
+            var userComment = new Comment
+            {
+                Content = comment,
+                AnimalID = Id,
+            };
+            _commentService.CreateAsync(userComment);
+            return RedirectToAction(nameof(Details), new {Id});
+        }
+
+        public IActionResult Catalog()
+        {
+            var animals = _animalService.GetAllAnimalsWithCategories().Result;
+
+            var categories = _categoryService.GetAllAsync().Result;
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+
+            return View(animals);
         }
 
         [HttpPost]
-        public IActionResult Privacy(Animal animal)
+        public IActionResult Catalog(Guid categoryId)
         {
-            _animalService.CreateAsync(animal);
+            var categories = _categoryService.GetAllAsync().Result;
+            ViewBag.Categories = new SelectList(categories, "Id", "Name");
+            IEnumerable<Animal> animalsOfCategory;
+            if (categoryId != Guid.Empty)
+                animalsOfCategory = _animalService.GetAnimalsByCategory(categoryId).Result;
+            else
+                animalsOfCategory = _animalService.GetAllAnimalsWithCategories().Result;
 
-            return RedirectToAction(nameof(Index));
+            return View(animalsOfCategory);
         }
+
+
+
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
