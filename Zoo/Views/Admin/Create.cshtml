@@ -33,6 +33,7 @@
             <div class="form-group">
                 <label class="control-label">Image</label>
                 <input type="file" name="ImageData" class="form-control" accept="image/*"/>
+                @Html.ValidationMessage("file", new { @class = "text-danger" })
             </div>
 
             <div class="form-group">

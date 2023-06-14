@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace ZooDAL.Migrations
 {
     /// <inheritdoc />
-    public partial class FirstInit : Migration
+    public partial class finalInit : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,8 +32,8 @@ namespace ZooDAL.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<int>(type: "int", nullable: false),
-                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ImagePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CategoryID = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
@@ -62,6 +64,16 @@ namespace ZooDAL.Migrations
                         principalTable: "Animals",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "Id", "Name" },
+                values: new object[,]
+                {
+                    { new Guid("4084bb8b-1182-4525-a7c2-5d18d361cb5b"), "Reptiles" },
+                    { new Guid("c8c9a415-536a-4a1a-8699-2d8a730bca34"), "Birds" },
+                    { new Guid("d6419971-cbec-4e18-a770-75a21be09bb0"), "Mammals" }
                 });
 
             migrationBuilder.CreateIndex(

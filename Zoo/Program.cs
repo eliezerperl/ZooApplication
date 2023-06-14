@@ -24,6 +24,14 @@ builder.Services.AddScoped<ICategoryService, CategoryService>();
 
 var app = builder.Build();
 
+await using (var scope = app.Services.CreateAsyncScope())
+{
+    using var context = scope.ServiceProvider.GetService<myContext>();
+    await context.Database.MigrateAsync(); // Migrate the database
+    await context.Database.EnsureCreatedAsync(); // Ensure the database is created
+}
+
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {

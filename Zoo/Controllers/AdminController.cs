@@ -44,6 +44,14 @@ namespace Zoo.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(Animal animal, IFormFile ImageData)
         {
+            //adding error for not inputing file
+            if (ImageData == null)
+            {
+                ModelState.AddModelError("file", "No file inputted");
+                return View(animal);
+            }
+
+
             animal.Category = await _categoryService.GetByIdAsync(animal.CategoryID);
             
             //adding the id here even though it will inhabitat it in the end (for the image guid)

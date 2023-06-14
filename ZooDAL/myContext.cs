@@ -20,7 +20,11 @@ namespace ZooDAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+            var cat1 = new Category { Id=Guid.NewGuid(), Name="Birds" };
+            var cat2 = new Category { Id = Guid.NewGuid(), Name = "Mammals" };
+            var cat3 = new Category { Id = Guid.NewGuid(), Name = "Reptiles" };
+
+            modelBuilder.Entity<Category>().HasData(cat1, cat2, cat3);
         }
     }
 }

@@ -39,7 +39,6 @@ namespace ZooDAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ImagePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
@@ -66,6 +65,23 @@ namespace ZooDAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("c8c9a415-536a-4a1a-8699-2d8a730bca34"),
+                            Name = "Birds"
+                        },
+                        new
+                        {
+                            Id = new Guid("d6419971-cbec-4e18-a770-75a21be09bb0"),
+                            Name = "Mammals"
+                        },
+                        new
+                        {
+                            Id = new Guid("4084bb8b-1182-4525-a7c2-5d18d361cb5b"),
+                            Name = "Reptiles"
+                        });
                 });
 
             modelBuilder.Entity("ZooDAL.Entities.Comment", b =>
