@@ -42,9 +42,9 @@ namespace Zoo.Controllers
         // POST: Admin/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Animal animal, IFormFile ImageData)
+        public async Task<IActionResult> Create(Animal animal, IFormFile ImageData)
         {
-            animal.Category = _categoryService.GetByIdAsync(animal.CategoryID).Result;
+            animal.Category = await _categoryService.GetByIdAsync(animal.CategoryID);
             //animal.Comments = new List<Comment>();
 
             //creating file path in order to save file to wwwroot folder
@@ -78,7 +78,7 @@ namespace Zoo.Controllers
                 return View(animal);
             try
             {
-                _animalService.CreateAsync(animal);
+                await _animalService.CreateAsync(animal);
                 return RedirectToAction(nameof(Index));
             }
             catch
