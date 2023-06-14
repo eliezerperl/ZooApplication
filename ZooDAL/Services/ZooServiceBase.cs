@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ZooDAL.Entities;
+using ZooDAL.Entities.Interface;
 using ZooDAL.Services.Intefaces;
 
 namespace ZooDAL.Services
