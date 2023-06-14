@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ZooDAL.Entities;
 
-namespace ZooDAL.Services.Intefaces
+namespace ZooDAL.Entities.Interface
 {
-    public interface ICategoryService : IZooServiceBase<Category>
+    public interface IEntity
     {
+        Guid Id { get; set; }
+        string Name { get; }
     }
 }

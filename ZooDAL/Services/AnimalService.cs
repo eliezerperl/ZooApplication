@@ -9,7 +9,7 @@ using ZooDAL.Services.Intefaces;
 
 namespace ZooDAL.Services
 {
-    public class AnimalService : ZooService<Animal>, IAnimalService
+    public class AnimalService : ZooServiceBase<Animal>, IAnimalService
     {
 
         public AnimalService(myContext context) : base(context)

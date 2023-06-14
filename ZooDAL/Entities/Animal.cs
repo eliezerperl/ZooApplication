@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZooDAL.Entities.Interface;
 
 namespace ZooDAL.Entities
 {
-    public class Animal
+    public class Animal : IEntity
     {
         [Key]
         public Guid Id { get; set; }

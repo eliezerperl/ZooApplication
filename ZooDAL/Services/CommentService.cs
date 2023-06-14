@@ -8,7 +8,7 @@ using ZooDAL.Services.Intefaces;
 
 namespace ZooDAL.Services
 {
-    public class CommentService : ZooService<Comment>, ICommentService
+    public class CommentService : ZooServiceBase<Comment>, ICommentService
     {
         public CommentService(myContext context) : base(context)
         {

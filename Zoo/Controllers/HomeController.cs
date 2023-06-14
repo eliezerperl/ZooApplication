@@ -20,41 +20,54 @@ namespace Zoo.Controllers
             _categoryService = catservice;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            var animals = _animalService.GetTopTwoAnimalsWithCategories().Result;
+            ////FOR LIRON TO ADD CATEGORIES
+            //var cat1 = new Category { Name="Birds" };
+            //var cat2 = new Category { Name="Mammals" };
+            //var cat3 = new Category { Name="Reptiles" };
+            //await _categoryService.CreateAsync(cat1);
+            //await _categoryService.CreateAsync(cat2);
+            //await _categoryService.CreateAsync(cat3);
+
+            var animals = await _animalService.GetTopTwoAnimalsWithCategories();
 
             return View(animals);
         }
 
-        public IActionResult Details(Guid Id)
+
+        public async Task<IActionResult> Details(Guid Id)
         {
-            var animal = _animalService.GetAnimalWithCategory(Id).Result;
-            animal.Comments = _commentService.GetCommentsForAnimal(animal).Result;
+            var animal = await _animalService.GetAnimalWithCategory(Id);
+            animal.Comments = await _commentService.GetCommentsForAnimal(animal);
             return View(animal);
         }
 
+
         [HttpPost]
-        public IActionResult PostComment(string comment, Guid Id)
+        public async Task<IActionResult> PostComment(string comment, Guid Id)
         {
             var userComment = new Comment
             {
-                Content = comment,
+                Name = comment,
                 AnimalID = Id,
             };
-            _commentService.CreateAsync(userComment);
+            await _commentService.CreateAsync(userComment);
             return RedirectToAction(nameof(Details), new {Id});
         }
 
-        public IActionResult Catalog(Guid? categoryId)
+
+        public async Task<IActionResult> Catalog(Guid? categoryId)
         {
             IEnumerable<Animal> animals;
-            if (categoryId.HasValue && categoryId != Guid.Empty) 
-                animals = _animalService.GetAnimalsByCategory(categoryId.Value).Result;
-            else
-                animals = _animalService.GetAllAnimalsWithCategories().Result;
 
-            var categories = _categoryService.GetAllAsync().Result;
+            if (categoryId.HasValue && categoryId != Guid.Empty) 
+                animals = await _animalService.GetAnimalsByCategory(categoryId.Value);
+            else
+                animals = await _animalService.GetAllAnimalsWithCategories();
+
+            var categories = await _categoryService.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "Name", categoryId);
 
             return View(animals);
@@ -69,28 +82,6 @@ namespace Zoo.Controllers
             else
                 return RedirectToAction(nameof(Catalog), new { categoryId });
         }
-
-
-        //[HttpPost]
-        //public IActionResult Catalog(Guid categoryId)
-        //{
-        //    //var categories = _categoryService.GetAllAsync().Result;
-        //    //ViewBag.Categories = new SelectList(categories, "Id", "Name", categoryId);
-
-        //    //IEnumerable<Animal> animalsOfCategory;
-        //    //if (categoryId != Guid.Empty)
-        //    //    animalsOfCategory = _animalService.GetAnimalsByCategory(categoryId).Result;
-        //    //else
-        //    //    animalsOfCategory = _animalService.GetAllAnimalsWithCategories().Result;
-
-        //    //return View(animalsOfCategory);
-        //    if (categoryId == Guid.Empty)
-        //        return RedirectToAction(nameof(Catalog));
-        //    else
-        //        return RedirectToAction(nameof(Catalog), categoryId);
-        //}
-
-
 
 
 

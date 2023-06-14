@@ -7,7 +7,7 @@ using ZooDAL.Entities;
 
 namespace ZooDAL.Services.Intefaces
 {
-    public interface ICommentService : IZooService<Comment>
+    public interface ICommentService : IZooServiceBase<Comment>
     {
 
         Task<IEnumerable<Comment>> GetCommentsForAnimal(Animal animal);

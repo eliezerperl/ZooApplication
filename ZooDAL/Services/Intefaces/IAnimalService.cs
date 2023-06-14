@@ -7,7 +7,7 @@ using ZooDAL.Entities;
 
 namespace ZooDAL.Services.Intefaces
 {
-    public interface IAnimalService : IZooService<Animal>
+    public interface IAnimalService : IZooServiceBase<Animal>
     {
 
         Task<Animal> GetAnimalWithCategory(Guid id);

@@ -8,7 +8,7 @@ using ZooDAL.Services.Intefaces;
 
 namespace ZooDAL.Services
 {
-    public class CategoryService : ZooService<Category>, ICategoryService
+    public class CategoryService : ZooServiceBase<Category>, ICategoryService
     {
         public CategoryService(myContext context) : base(context)
         {

@@ -23,17 +23,9 @@ namespace Zoo.Controllers
         }
 
         // GET: Admin
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ////FOR LIRON TO ADD CATEGORIES
-            //var cat1 = new Category { Name="Birds" };
-            //var cat2 = new Category { Name="Mammals" };
-            //var cat3 = new Category { Name="Reptiles" };
-            //_categoryService.CreateAsync(cat1);
-            //_categoryService.CreateAsync(cat2);
-            //_categoryService.CreateAsync(cat3);
-
-            var animals = _animalService.GetAllAnimalsWithCategories().Result;
+            var animals = await _animalService.GetAllAnimalsWithCategories();
 
             return View(animals);
         }
@@ -53,13 +45,12 @@ namespace Zoo.Controllers
         public async Task<IActionResult> Create(Animal animal, IFormFile ImageData)
         {
             animal.Category = await _categoryService.GetByIdAsync(animal.CategoryID);
-            //animal.Comments = new List<Comment>();
 
             //creating file path in order to save file to wwwroot folder
             var root = Path.Combine(_env.WebRootPath, "Uploads");
             Directory.CreateDirectory(root);
             
-            var fileName = Path.Combine(root, Guid.NewGuid().ToString("N") + Path.GetExtension(ImageData.FileName));
+            var fileName = Path.Combine(root, animal.Id + Path.GetExtension(ImageData.FileName));
 
             //saving in bytes
             byte[] bytes;

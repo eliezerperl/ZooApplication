@@ -9,11 +9,11 @@ using ZooDAL.Services.Intefaces;
 
 namespace ZooDAL.Services
 {
-    public class ZooService<T> : IZooService<T> where T : class
+    public class ZooServiceBase<T> : IZooServiceBase<T> where T : class
     {
         protected readonly myContext _dbContext;
 
-        public ZooService(myContext context)
+        public ZooServiceBase(myContext context)
         {
             _dbContext = context;
         }
