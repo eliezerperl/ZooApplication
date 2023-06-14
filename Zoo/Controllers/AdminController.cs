@@ -123,7 +123,7 @@ namespace Zoo.Controllers
         // POST: Admin/Delete/{Guid}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteAction(Guid id)
+        public async Task<IActionResult> DeleteAction(Guid id)
         {
             try
             {
@@ -133,10 +133,10 @@ namespace Zoo.Controllers
                 System.IO.File.Delete(imagePath);
 
                 //Deleting the animals comments
-                _commentService.DeleteAllCommentsForAnimal(animalToDelete);
+                await _commentService.DeleteAllCommentsForAnimal(animalToDelete);
 
                 //Deleting the animal
-                _animalService.DeleteAsync(id);
+                await _animalService.DeleteAsync(id);
                 return RedirectToAction(nameof(Index));
             }
             catch
