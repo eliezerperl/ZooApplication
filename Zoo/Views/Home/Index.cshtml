@@ -5,7 +5,7 @@
 }
 
 
-<div style="position: relative;">
+<div class="shadow" style="position: relative;">
     <img src="~/zooPic.jpg" style="max-height: 600px; width: 100%;" class="img-fluid" alt="Zoo Picture">
     <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: white; padding: 15px; border-radius: 50%;">
         <h1 class="text-center">Eliezer's Zoo</h1>
@@ -27,7 +27,7 @@
 
 @foreach (var item in Model) {
     <div class="m-5">
-        <div class="card" style="width: 18rem;">
+        <div class="card shadow" style="width: 18rem;">
             <img src="~/Uploads/@item.ImagePath" class="card-img-top" alt="...">
             <div class="card-body text-center">
                 <h5 class="card-title">@item.Name</h5>

@@ -1,14 +1,16 @@
 ﻿@model IEnumerable<ZooDAL.Entities.Animal>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Admin";
 }
 
-<h1 class="text-center">Index</h1>
+<h1 class="text-center">@ViewData["Title"]</h1>
 
 <p class="text-center">
-    <a class="btn btn-secondary" asp-action="Create">Add Animal</a>
+    <a class="btn btn-primary" asp-action="Create">Add Animal</a>
 </p>
+<hr />
+
 <table class="table">
     <thead>
         <tr>
@@ -34,7 +36,7 @@
     </thead>
     <tbody>
 @foreach (var item in Model) {
-        <tr>
+        <tr class="text-center">
             <td>
                 @Html.DisplayFor(modelItem => item.Id)
             </td>
@@ -54,8 +56,8 @@
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
             <td>
-                <a href="@Url.Action("Edit", new {id=item.Id})" class="btn btn-outline-secondary mb-3">Edit</a>
-                <a href="@Url.Action("Delete", new {id=item.Id})" class="btn btn-outline-secondary">Delete</a>
+                <a href="@Url.Action("Edit", new {id=item.Id})" class="btn btn-secondary">Edit</a>
+                <a href="@Url.Action("Delete", new {id=item.Id})" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }

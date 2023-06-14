@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Animals";
 }
-<div class="card opacity-75">
+<div class="card">
     <h1 class="card-header card-title text-center">@ViewData["Title"]</h1>
 
         <form class="card-body text-center" method="post" asp-action="GetByCategory">
@@ -22,7 +22,7 @@
 @foreach (var item in Model) {
 
       <div class="col">
-        <div class="card" style="width: 18rem;">
+        <div class="card shadow" style="width: 18rem;">
             <img src="~/Uploads/@item.ImagePath" class="card-img-top" alt="...">
           <div class="card-body text-center">
             <h5 class="card-text"><b>Name:</b> @item.Name</h5>
