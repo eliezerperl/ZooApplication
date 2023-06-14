@@ -50,7 +50,7 @@ namespace Zoo.Controllers
         {
             var userComment = new Comment
             {
-                Name = comment,
+                Content = comment,
                 AnimalID = Id,
             };
             await _commentService.CreateAsync(userComment);

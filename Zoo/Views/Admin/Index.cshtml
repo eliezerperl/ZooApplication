@@ -53,8 +53,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Category.Name)
             </td>
-            <td class="row">
-                <a href="@Url.Action("Edit", new {id=item.Id})" class="btn btn-outline-secondary mb-3">Edit</a>
+            <td>
+                <a href="@Url.Action("Edit", new {id=item.Id})" class="btn btn-outline-secondary">Edit</a>
                 <a href="@Url.Action("Delete", new {id=item.Id})" class="btn btn-outline-secondary">Delete</a>
             </td>
         </tr>

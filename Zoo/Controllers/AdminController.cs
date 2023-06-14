@@ -45,6 +45,9 @@ namespace Zoo.Controllers
         public async Task<IActionResult> Create(Animal animal, IFormFile ImageData)
         {
             animal.Category = await _categoryService.GetByIdAsync(animal.CategoryID);
+            
+            //adding the id here even though it will inhabitat it in the end (for the image guid)
+            animal.Id = Guid.NewGuid();
 
             //creating file path in order to save file to wwwroot folder
             var root = Path.Combine(_env.WebRootPath, "Uploads");

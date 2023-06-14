@@ -8,13 +8,13 @@ using ZooDAL.Entities.Interface;
 
 namespace ZooDAL.Entities
 {
-    public class Comment : IEntity
+    public class Comment
     {
         [Key]
         public Guid Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        public string Content { get; set; }
         public Guid AnimalID { get; set; }
         public Animal Animal { get; set; }
     }
