@@ -31,9 +31,9 @@ namespace Zoo.Controllers
         }
 
         // GET: Admin/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            var categories = _categoryService.GetAllAsync().Result;
+            var categories = await _categoryService.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
 
             return View();
@@ -87,12 +87,12 @@ namespace Zoo.Controllers
         }
 
         // GET: Admin/Edit/{Guid}
-        public IActionResult Edit(Guid id)
+        public async Task<IActionResult> Edit(Guid id)
         {
-            var categories = _categoryService.GetAllAsync().Result;
+            var categories = await _categoryService.GetAllAsync();
             ViewBag.Categories = new SelectList(categories, "Id", "Name");
 
-            var animal = _animalService.GetByIdAsync(id).Result;
+            var animal = await _animalService.GetByIdAsync(id);
             return View(animal);
         }
 
@@ -113,9 +113,9 @@ namespace Zoo.Controllers
         }
 
         // GET: Admin/Delete/{Guid}
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
-            var animalToDelete = _animalService.GetAnimalWithCategory(id).Result;
+            var animalToDelete = await _animalService.GetAnimalWithCategory(id);
             return View(animalToDelete);
         }
 
