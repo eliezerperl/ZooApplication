@@ -10,45 +10,43 @@ using ZooDAL.Services.Intefaces;
 
 namespace ZooDAL.Services
 {
-    public class ZooServiceBase<T> : IZooServiceBase<T> where T : class
+    public class ZooServiceBase<T> : IZooServiceBase<T> where T : class, IEntity
     {
         protected readonly myContext _dbContext;
+        readonly DbSet<T> _dbSet;
 
         public ZooServiceBase(myContext context)
         {
             _dbContext = context;
+            _dbSet = _dbContext.Set<T>();
         }
 
         public async Task CreateAsync(T entity)
         {
-            var dbSet = _dbContext.Set<T>();
-            await dbSet.AddAsync(entity);
+            await _dbSet.AddAsync(entity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(Guid id)
         {
-            var dbSet = _dbContext.Set<T>();
-            var deletingEntity = await dbSet.FindAsync(id);
+            var deletingEntity = await _dbSet.FindAsync(id);
             if (deletingEntity == null)
                 throw new ArgumentException($"Entity with ID {id} does not exist.");
 
-            dbSet.Remove(deletingEntity);
+            _dbSet.Remove(deletingEntity);
             await _dbContext.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<T>> GetAllAsync()
         {
-            var dbSet = _dbContext.Set<T>();
-            var listOfEntites = await dbSet.ToListAsync();
+            var listOfEntites = await _dbSet.ToListAsync();
 
             return listOfEntites;
         }
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var dbSet = _dbContext.Set<T>();
-            var wantedEntity = await dbSet.FindAsync(id);
+            var wantedEntity = await _dbSet.FindAsync(id);
             if (wantedEntity == null)
                 throw new ArgumentException($"Entity with ID {id} does not exist.");
 
@@ -57,15 +55,10 @@ namespace ZooDAL.Services
 
         public async Task UpdateAsync(Guid id, T entity)
         {
-            var dbSet = _dbContext.Set<T>();
-
-            var existingEntity = await dbSet.FindAsync(id);
+            var existingEntity = await _dbSet.FindAsync(id);
             if (existingEntity == null)
                 throw new ArgumentException($"Entity with ID {id} does not exist.");
-            /*
-             add newEntityId = oldEntityId
-            entity.Id = id;
-             */
+
             _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
 
             _dbContext.SaveChanges();

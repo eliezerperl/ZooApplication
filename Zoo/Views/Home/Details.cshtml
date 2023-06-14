@@ -28,7 +28,7 @@
                     <hr />
                     <form class="text-center" method="post" asp-action="PostComment" asp-route-id="@Model.Id">
                         <div class="mb-4">
-                            <input class="form-control" name="comment" placeholder="Comment here...">
+                            <input class="form-control" name="comment" placeholder="Comment here..." required>
                         </div>
                         <button type="submit" class="btn btn-primary">Post</button>
                     </form>

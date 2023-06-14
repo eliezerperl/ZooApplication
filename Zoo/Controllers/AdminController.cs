@@ -30,6 +30,7 @@ namespace Zoo.Controllers
             return View(animals);
         }
 
+
         // GET: Admin/Create
         public async Task<IActionResult> Create()
         {
@@ -38,6 +39,7 @@ namespace Zoo.Controllers
 
             return View();
         }
+
 
         // POST: Admin/Create
         [HttpPost]
@@ -97,6 +99,7 @@ namespace Zoo.Controllers
             }
         }
 
+
         // GET: Admin/Edit/{Guid}
         public async Task<IActionResult> Edit(Guid id)
         {
@@ -106,6 +109,7 @@ namespace Zoo.Controllers
             var animal = await _animalService.GetByIdAsync(id);
             return View(animal);
         }
+
 
         // POST: Admin/Edit/{Guid}
         [HttpPost]
@@ -123,12 +127,14 @@ namespace Zoo.Controllers
             }
         }
 
+
         // GET: Admin/Delete/{Guid}
         public async Task<IActionResult> Delete(Guid id)
         {
             var animalToDelete = await _animalService.GetAnimalWithCategory(id);
             return View(animalToDelete);
         }
+
 
         // POST: Admin/Delete/{Guid}
         [HttpPost]

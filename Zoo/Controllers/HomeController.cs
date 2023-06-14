@@ -23,14 +23,6 @@ namespace Zoo.Controllers
 
         public async Task<IActionResult> Index()
         {
-            ////FOR LIRON TO ADD CATEGORIES
-            //var cat1 = new Category { Name="Birds" };
-            //var cat2 = new Category { Name="Mammals" };
-            //var cat3 = new Category { Name="Reptiles" };
-            //await _categoryService.CreateAsync(cat1);
-            //await _categoryService.CreateAsync(cat2);
-            //await _categoryService.CreateAsync(cat3);
-
             var animals = await _animalService.GetTopTwoAnimalsWithCategories();
 
             return View(animals);
@@ -46,13 +38,22 @@ namespace Zoo.Controllers
 
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> PostComment(string comment, Guid Id)
         {
+            if (string.IsNullOrEmpty(comment))
+            {
+                ModelState.AddModelError("comment", "You must write a comment");
+                return RedirectToAction(nameof(Details), new { Id });
+            }
+
             var userComment = new Comment
             {
                 Content = comment,
                 AnimalID = Id,
             };
+
+
             await _commentService.CreateAsync(userComment);
             return RedirectToAction(nameof(Details), new {Id});
         }

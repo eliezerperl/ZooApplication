@@ -7,7 +7,7 @@ using ZooDAL.Entities.Interface;
 
 namespace ZooDAL.Services.Intefaces
 {
-    public interface IZooServiceBase<T> where T : class
+    public interface IZooServiceBase<T> where T : class, IEntity
     {
         Task<IEnumerable<T>> GetAllAsync();
 
