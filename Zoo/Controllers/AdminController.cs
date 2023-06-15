@@ -50,6 +50,8 @@ namespace Zoo.Controllers
             if (ImageData == null)
             {
                 ModelState.AddModelError("file", "No file inputted");
+                var categories = await _categoryService.GetAllAsync();
+                ViewBag.Categories = new SelectList(categories, "Id", "Name");
                 return View(animal);
             }
 
